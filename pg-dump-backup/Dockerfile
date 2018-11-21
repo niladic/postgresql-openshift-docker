@@ -3,6 +3,7 @@ FROM centos/postgresql-10-centos7
 
 USER 0
 
+RUN mkdir /var/backups
 RUN /usr/libexec/fix-permissions /var/backups
 VOLUME ["/var/backups"]
 
