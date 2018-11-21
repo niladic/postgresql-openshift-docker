@@ -2,9 +2,8 @@
 
 # Backup with PG_DUMP
 - Create build : `oc new-build https://github.com/jdauphant/postgresql-openshift-docker --context-dir=pg-dump-backup --name pg-dump-backup` (you may need to setup limit and request ressources if your cluster enforce it)
-- Launch backup `oc run backup-db --image=pg-dump-backup --replicas=1 --restart=None`
 - Create backup job and run it one : `oc create -f job-run-once.yaml`
-- Relaunch the create job : `oc scale job pg-dump-backup --replicas 1`
+- Create regular backup job via cron jobs : `oc create -f job-cron-run.yaml`
 
 
 # Command
