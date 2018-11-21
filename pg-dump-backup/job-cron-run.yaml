@@ -1,0 +1,45 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: pg-dump-backup-cron
+spec:  
+  successfulJobsHistoryLimit: 30
+  failedJobsHistoryLimit: 6
+  schedule: "*/10 * * * *"  
+  jobTemplate:    
+    spec:
+      template:
+        metadata:
+          labels: 
+            parent: "pg-dump-backup-job"
+        spec:
+          containers:
+          - env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: database-url
+                  name: db
+            - name: DATABASE_NAME
+              value: db
+            - name: DATABASE_BACKUP_PATH
+              value: '/var/backups'
+            - name: RETENTION_DAYS
+              value: '30'
+            name: pg-dump-backup
+            image: 'pg-dump-backup'
+            resources:
+              limits:
+                cpu: 250m
+                memory: 256Mi
+              requests:
+                cpu: 250m
+                memory: 256Mi
+            volumeMounts:
+            - mountPath: /var/backups
+              name: db-backups
+          restartPolicy: OnFailure
+          volumes:
+            - name: db-backups
+              persistentVolumeClaim:
+                claimName: db-backups
