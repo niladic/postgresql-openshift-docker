@@ -15,7 +15,7 @@ then
       exit 1
 fi
 
-echo ${RECIPIENT_PUBLIC_KEY} | base64 -D > ./${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
+echo ${RECIPIENT_PUBLIC_KEY} | base64 --decode > ./${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
 cat ./${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
 gpg --no-tty --import ${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
 gpg --batch --trust-model always --output "${FILENAME}.gpg" --recipient ${RECIPIENT_PUBLIC_KEY_EMAIL} --encrypt ${FILENAME}
