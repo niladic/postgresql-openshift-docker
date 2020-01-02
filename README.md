@@ -15,6 +15,9 @@
 gpg --gen-key
 ```
 
+# How to pass the public key to the container ?
+The container expects the public key to be base64 encoded and passed as the env var 'RECIPIENT_PUBLIC_KEY_B64'.
+
 # Decrypt the backup
 ```
 gpg --output backup --decrypt backup.gpg
