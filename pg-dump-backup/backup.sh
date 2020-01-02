@@ -7,7 +7,13 @@ FILENAME="$DATABASE_BACKUP_PATH/$DATABASE_NAME.$NOW.backup.gz"
 find $DATABASE_BACKUP_PATH -name $DATABASE_NAME.*backup* -type f -mtime +$RETENTION_DAYS -exec rm '{}' \;
 pg_dump -Fc $DATABASE_URL | gzip > $FILENAME
 
-curl -o ${RECIPIENT_PUBLIC_KEY_EMAIL}.asc ${RECIPIENT_PUBLIC_KEY_URL}
+if [ -z "${RECIPIENT_PUBLIC_KEY}" ]
+then
+      echo "RECIPIENT_PUBLIC_KEY is empty."
+      exit 1
+fi
+
+echo ${RECIPIENT_PUBLIC_KEY} > ./${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
 gpg --no-tty --import ${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
 gpg --batch --trust-model always --output "${FILENAME}.gpg" --recipient ${RECIPIENT_PUBLIC_KEY_EMAIL} --encrypt ${FILENAME}
 
