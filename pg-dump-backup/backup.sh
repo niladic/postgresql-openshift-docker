@@ -7,9 +7,9 @@ FILENAME="$DATABASE_BACKUP_PATH/$DATABASE_NAME.$NOW.backup.gz"
 find $DATABASE_BACKUP_PATH -name $DATABASE_NAME.*backup* -type f -mtime +$RETENTION_DAYS -exec rm '{}' \;
 pg_dump -Fc $DATABASE_URL | gzip > $FILENAME
 
-if [ -z "${RECIPIENT_PUBLIC_KEY}" ]
+if [ -z "${RECIPIENT_PUBLIC_KEY_B64}" ]
 then
-      echo "RECIPIENT_PUBLIC_KEY is empty."
+      echo "RECIPIENT_PUBLIC_KEY_B64 is empty."
       exit 1
 fi
 
