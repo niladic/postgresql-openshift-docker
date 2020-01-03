@@ -9,3 +9,16 @@
 # Command
 - Launch debug shell : `oc run -i -t "pg-bash-$(date +%s)"  --restart=Never --image=centos/postgresql-10-centos7 --limits='cpu=100m,memory=256Mi' --requests='cpu=100m,memory=256Mi' --command -- "/bin/bash"`
 - Restore a custom-dump (with data removal) : `pg_restore --if-exist --clean -d postgres://user:pass@host:5432/db db-dump`
+
+# Generate a gpg key
+```
+gpg --gen-key
+```
+
+# How to pass the public key to the container ?
+The container expects the public key to be base64 encoded and passed as the env var 'RECIPIENT_PUBLIC_KEY_B64'.
+
+# Decrypt the backup
+```
+gpg --output backup --decrypt backup.gpg
+```
