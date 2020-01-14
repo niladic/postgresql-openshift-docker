@@ -9,8 +9,8 @@ pg_dump -Fc $DATABASE_URL | gzip > $FILENAME
 
 if [ -z "${RECIPIENT_PUBLIC_KEY_B64}" ]
 then
-      echo "RECIPIENT_PUBLIC_KEY_B64 is empty."
-      exit 1
+      echo "Do no upload backup : RECIPIENT_PUBLIC_KEY_B64 is empty."
+      exit 0
 fi
 
 echo ${RECIPIENT_PUBLIC_KEY_B64} | base64 --decode > ./${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
