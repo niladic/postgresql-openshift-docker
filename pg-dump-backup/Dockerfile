@@ -7,12 +7,14 @@ ENV RECIPIENT_PUBLIC_KEY_B64 ""
 ENV RECIPIENT_PUBLIC_KEY_EMAIL ""
 ENV AWS_ACCESS_KEY_ID ""
 ENV AWS_SECRET_ACCESS_KEY ""
-ENV AWS_DEFAULT_REGION ""
-ENV AWS_BUCKET_NAME ""
+ENV S3_REGION ""
+ENV S3_BUCKET_NAME ""
+ENV S3_HOSTNAME ""
+ENV S3_HOSTBUCKET ""
 
 RUN yum install -y epel-release
 RUN yum install -y python-pip
-RUN pip install --upgrade awscli==1.14.5 s3cmd==2.0.1 python-magic
+RUN pip install --upgrade s3cmd==2.0.2
 
 RUN mkdir /var/backups
 RUN /usr/libexec/fix-permissions /var/backups
