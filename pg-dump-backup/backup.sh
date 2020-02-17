@@ -16,8 +16,7 @@ then
       exit 0
 fi
 
-echo ${RECIPIENT_PUBLIC_KEY} > ./${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
-gpg --no-tty --import ${RECIPIENT_PUBLIC_KEY_EMAIL}.asc
+echo ${RECIPIENT_PUBLIC_KEY} | gpg --no-tty --import
 gpg --batch --trust-model always --output "${FILENAME}.gpg" --recipient ${RECIPIENT_PUBLIC_KEY_EMAIL} --encrypt ${FILENAME}
 
 s3cmd --host=${S3_HOSTNAME} --host-bucket=${S3_HOSTBUCKET} put "${FILENAME}.gpg" s3://${S3_BUCKET_NAME}
