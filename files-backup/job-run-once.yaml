@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: files-backup
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: files-backup
+    spec:
+      containers:
+      - name: files-backup
+        image: 'files-backup'
+        resources:
+          limits:
+            cpu: 250m
+            memory: 256Mi
+          requests:
+            cpu: 250m
+            memory: 256Mi
+        volumeMounts:
+         - mountPath: /var/backups
+           name: metabase-db
+      restartPolicy: Never
+      volumes:
+        - name: metabase-db
+          persistentVolumeClaim:
+            claimName: metabase-db
